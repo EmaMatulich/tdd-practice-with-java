@@ -7,54 +7,58 @@ import org.junit.rules.ExpectedException;
 
 public class TicTacToeSpec {
 
-    TicTacToe game;
+    private TicTacToe game;
 
     @Rule
     public ExpectedException exception = ExpectedException.none();
 
     @Before
-    public void setup(){
+    public final void setup(){
         game = new TicTacToe();
     }
 
+    /**
+     * Test name recomended - BDD scenarios
+     *  given/when/then
+     *  given--> preconditions
+     *  when--> actions
+     *  then-->expected outcome
+     *  if a test does not have preconditions (set up on @before or @beforeclass)
+     *  given can be ommited
+     */
+
     @Test
-    public void whenPieceIsPlacedInXAxisOutOfRangeThenRuntimeExceptionIsThrown(){
+    public void whenPieceIsPlacedInXPositionOutOfRangeThenRuntimeException(){
 
         int x = 4;
         int y = 2;
-        String piece = "X";
 
         exception.expect(RuntimeException.class);
 
-        game.placePiece(piece, x, y);
-
+        game.play(x, y);
     }
 
     @Test
-    public void whenPieceIsPlacedInYAxisOutOfRangeThenRuntimeExceptionIsThrown(){
+    public void whenPieceIsPlacedInYPositionOutOfRangeThenRuntimeException(){
+
         int x = 2;
         int y = 4;
-        String piece = "O";
 
         exception.expect(RuntimeException.class);
 
-        game.placePiece(piece, x, y);
+        game.play(x, y);
     }
 
     @Test
-    public void whenPieceIsPlacedInAnOccupiedPositionThenRuntimeExceptionIsThrown(){
-
+    public void whenPlacingAPieceInOccupiedPositionThenRuntimeException(){
         int x = 2;
-        int y= 2;
-        String piece1 = "X";
+        int y = 2;
 
-        game.placePiece(piece1, x, y);
-
-        String piece2 = "O";
+        game.play(x, y);
 
         exception.expect(RuntimeException.class);
-        game.placePiece(piece2, x, y);
-    }
 
+        game.play(x, y);
+    }
 
 }
