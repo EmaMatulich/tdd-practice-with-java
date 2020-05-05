@@ -10,8 +10,10 @@ public class TicTacToe {
     public void placePiece(String piece, int xAxis, int yAxis) throws RuntimeException{
         validateXAxisPosition(xAxis);
         validateYAxisPosition(yAxis);
-        validateIfPositionIsOcupated(xAxis, yAxis);
-        board[xAxis][yAxis] = piece;
+        int realXAxis = --xAxis;
+        int realYAxis = --yAxis;
+        validateIfPositionIsOcupated(realXAxis, realYAxis);
+        board[realXAxis][realYAxis] = piece;
     }
 
     private void validateXAxisPosition(int xAxis) throws RuntimeException{
