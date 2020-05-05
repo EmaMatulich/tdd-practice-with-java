@@ -1,24 +1,24 @@
 package com.chp03tictactoe;
 
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 public class TicTacToeSpec {
 
-    static TicTacToe game;
+    TicTacToe game;
 
     @Rule
     public ExpectedException exception = ExpectedException.none();
 
-    @BeforeClass
-    public static void setup(){
+    @Before
+    public void setup(){
         game = new TicTacToe();
     }
 
     @Test
-    public void xAxisTooOutOfRangeThrowsRuntimeException(){
+    public void whenPieceIsPlacedInXAxisOutOfRangeThenRuntimeExceptionIsThrown(){
 
         int x = 4;
         int y = 2;
@@ -31,7 +31,7 @@ public class TicTacToeSpec {
     }
 
     @Test
-    public void yAxisOutOfRangeThrowsRuntimeException(){
+    public void whenPieceIsPlacedInYAxisOutOfRangeThenRuntimeExceptionIsThrown(){
         int x = 2;
         int y = 4;
         String piece = "O";
@@ -42,7 +42,8 @@ public class TicTacToeSpec {
     }
 
     @Test
-    public void placeAPieceInOcupatedPositionThrowsRuntimeException(){
+    public void whenPieceIsPlacedInAnOccupiedPositionThenRuntimeExceptionIsThrown(){
+
         int x = 2;
         int y= 2;
         String piece1 = "X";
