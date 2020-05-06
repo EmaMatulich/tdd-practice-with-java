@@ -4,7 +4,10 @@ public class TicTacToe {
 
     private char[][] board;
     private final char EMPTY_SPOT = '-';
+    private final char NO_CURRENT_PLAYER = '-';
     private final char X_PLAYER = 'X';
+    private final char O_PLAYER = 'O';
+    private char currentPlayer;
 
     public TicTacToe(){
         board = new char[][]{
@@ -12,12 +15,14 @@ public class TicTacToe {
                 {EMPTY_SPOT, EMPTY_SPOT, EMPTY_SPOT},
                 {EMPTY_SPOT, EMPTY_SPOT, EMPTY_SPOT}
         };
+        currentPlayer = NO_CURRENT_PLAYER;
     }
 
     public void play(final int xPosition, final int yPosition) throws RuntimeException {
         validateAxisPostion(xPosition);
         validateAxisPostion(yPosition);
         placePiece(xPosition, yPosition);
+        currentPlayer = nextPlayer();
     }
 
     private void validateAxisPostion(final int axisPosition) throws RuntimeException{
@@ -34,5 +39,9 @@ public class TicTacToe {
             throw new RuntimeException("Position "+ xPosition + " - " + yPosition + "is occupied");
         }
         board[realX][realY] = X_PLAYER;
+    }
+
+    public char nextPlayer(){
+        return currentPlayer == X_PLAYER ? O_PLAYER : X_PLAYER;
     }
 }
