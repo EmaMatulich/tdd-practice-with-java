@@ -94,5 +94,37 @@ public class TicTacToeSpec {
         assertEquals("X is the winner", actual);
     }
 
+    @Test
+    public void whenPlayAndWholeVerticalLineThenWinner(){
+        game.play(1,1); //X plays
+        game.play(1,2); //O plays
+        game.play(2,3); //X plays
+        game.play(2,2); //O plays
+        game.play(3,1); //X plays
+        String actual = game.play(3,2); //O plays
+        assertEquals("O is the winner", actual);
+    }
+
+    @Test
+    public void whenPlayAndTopBottomDiagonalLineThenWinner(){
+        game.play(1, 1); //plays x
+        game.play(1, 2); //plays O
+        game.play(2, 2); //plays x
+        game.play(2, 1); //plays o
+        String actual = game.play(3, 3); //plays x
+        assertEquals("X is the winner", actual);
+    }
+
+    @Test
+    public void whenPlayAndBottomTopDiagonalLineThenWinner(){
+        game.play(1, 1); //plays x
+        game.play(1, 3); //plays O
+        game.play(1, 2); //plays x
+        game.play(2, 2); //plays O
+        game.play(2, 1); //plays x
+        String actual = game.play(3, 1); //plays O
+        assertEquals("O is the winner", actual);
+    }
+
 
 }

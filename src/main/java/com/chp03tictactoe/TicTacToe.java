@@ -8,6 +8,7 @@ public class TicTacToe {
     private final char X_PLAYER = 'X';
     private final char O_PLAYER = 'O';
     private final String NO_WINNER_MESSAGE = "No winner";
+    private final int BOARD_SIZE = 3;
     private char[][] board;
     private char currentPlayer;
 
@@ -52,20 +53,22 @@ public class TicTacToe {
     }
 
     private boolean win() {
-        return isHorizontalLineFilled();
-    }
-
-    private boolean isHorizontalLineFilled() {
-        for (int i = 0; i< board.length; i++){
-            boolean currentPlayerFillsLine = true;
-            for (int j= 0; j<board[i].length; j++){
-                if (board[i][j] != currentPlayer) {
-                    currentPlayerFillsLine = false;
-                }
+        int playerTotal = currentPlayer * BOARD_SIZE;
+        int mainDiagonal = 0;
+        int secondaryDiagonal = 0;
+        for (int i = 0; i < BOARD_SIZE; i++){
+            mainDiagonal += board[i][i];
+            secondaryDiagonal += board[i][BOARD_SIZE - i - 1];
+            //horizontal win
+            if (board[i][0] + board[i][1] + board[i][2] == playerTotal){
+                return true;
             }
-            if (!currentPlayerFillsLine){
-                continue;
+            //vertical win
+            if (board[0][i] + board[1][i] + board[2][i] == playerTotal){
+                return true;
             }
+        }
+        if (playerTotal == mainDiagonal || playerTotal == secondaryDiagonal){
             return true;
         }
         return false;
