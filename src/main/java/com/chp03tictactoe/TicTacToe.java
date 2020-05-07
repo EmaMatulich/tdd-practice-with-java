@@ -27,7 +27,7 @@ public class TicTacToe {
         validateAxisPostion(yPosition);
         currentPlayer = nextPlayer();
         placePiece(xPosition, yPosition, currentPlayer);
-        if (win()) {
+        if (win(xPosition, yPosition)) {
             return currentPlayer + " is the winner";
         }
         if (draw()) {
@@ -56,23 +56,21 @@ public class TicTacToe {
         return currentPlayer == X_PLAYER ? O_PLAYER : X_PLAYER;
     }
 
-    private boolean win() {
+    private boolean win(final int xPosition, final int yPosition) {
         int playerTotal = currentPlayer * BOARD_SIZE;
-        int mainDiagonal = 0;
-        int secondaryDiagonal = 0;
+        char horizontal, vertical, mainDiagonal, secondaryDiagonal;
+        horizontal = vertical = mainDiagonal = secondaryDiagonal = '\0';
         for (int i = 0; i < BOARD_SIZE; i++) {
+            horizontal += board[xPosition - 1][i];
+            vertical += board[i][yPosition - 1];
             mainDiagonal += board[i][i];
             secondaryDiagonal += board[i][BOARD_SIZE - i - 1];
-            //horizontal win
-            if (board[i][0] + board[i][1] + board[i][2] == playerTotal) {
-                return true;
-            }
-            //vertical win
-            if (board[0][i] + board[1][i] + board[2][i] == playerTotal) {
-                return true;
-            }
         }
-        if (playerTotal == mainDiagonal || playerTotal == secondaryDiagonal) {
+
+        if (playerTotal == mainDiagonal
+                || playerTotal == secondaryDiagonal
+                || playerTotal == horizontal
+                || playerTotal == vertical) {
             return true;
         }
         return false;
