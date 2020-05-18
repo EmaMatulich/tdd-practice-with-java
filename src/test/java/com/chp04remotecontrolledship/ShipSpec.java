@@ -20,7 +20,7 @@ public class ShipSpec {
     public void beforeTest(){
         max = new Point(50, 50);
         obstacles = new ArrayList<>();
-        obstacles.add(new Point(21, 12));
+        obstacles.add(new Point(20, 13));
         planet = new Planet(max, obstacles);
         location = new Location(new Point(21,13), Direction.NORTH);
         ship = new Ship(location, planet);
@@ -128,7 +128,7 @@ public class ShipSpec {
 
     @Test
     public void givenObstacleInFrontWhenMovingForwardThenCurrentPosition(){
-        String result = ship.executeCommand("bbfff");
+        String result = ship.executeCommand("bblfrff");
         assertEquals("OOOOX", result);
     }
 
