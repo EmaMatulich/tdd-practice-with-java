@@ -1,6 +1,8 @@
 package com.chp06tictactoev2;
 
-public class TicTacToeV2 {
+import java.net.UnknownHostException;
+
+public class TicTacToe {
 
 
     private final char EMPTY_SPOT = '-';
@@ -13,13 +15,20 @@ public class TicTacToeV2 {
     private char[][] board;
     private char currentPlayer;
 
-    public TicTacToeV2() {
+    private TicTacToeCollection collection;
+
+    public TicTacToe() throws UnknownHostException {
+        this(new TicTacToeCollection());
+    }
+
+    protected TicTacToe(TicTacToeCollection collection) {
         board = new char[][]{
                 {EMPTY_SPOT, EMPTY_SPOT, EMPTY_SPOT},
                 {EMPTY_SPOT, EMPTY_SPOT, EMPTY_SPOT},
                 {EMPTY_SPOT, EMPTY_SPOT, EMPTY_SPOT}
         };
         currentPlayer = NO_CURRENT_PLAYER;
+        this.collection = collection;
     }
 
     public String play(final int xPosition, final int yPosition) throws RuntimeException {
@@ -27,6 +36,8 @@ public class TicTacToeV2 {
         validateAxisPostion(yPosition);
         currentPlayer = nextPlayer();
         placePiece(xPosition, yPosition, currentPlayer);
+        TicTacToeBean move = new TicTacToeBean();
+        collection.saveMove();
         if (win(xPosition, yPosition)) {
             return currentPlayer + " is the winner";
         }
@@ -85,5 +96,9 @@ public class TicTacToeV2 {
             }
         }
         return true;
+    }
+
+    public TicTacToeCollection getTicTacToeCollection(){
+        return this.collection;
     }
 }

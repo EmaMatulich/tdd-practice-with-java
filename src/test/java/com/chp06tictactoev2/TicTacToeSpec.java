@@ -1,23 +1,28 @@
 package com.chp06tictactoev2;
 
-import com.chp03tictactoe.TicTacToe;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import java.net.UnknownHostException;
+
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.mockito.Mockito.*;
 
-public class TicTacToeSpecV2 {
+public class TicTacToeSpec {
 
-    private TicTacToeV2 game;
+    private TicTacToe game;
+    private TicTacToeCollection collection;
 
     @Rule
     public ExpectedException exception = ExpectedException.none();
 
     @Before
-    public final void setup(){
-        game = new TicTacToeV2();
+    public final void setup() throws UnknownHostException {
+        collection = mock(TicTacToeCollection.class);
+        game = new TicTacToe(collection);
     }
 
     /**
@@ -139,6 +144,20 @@ public class TicTacToeSpecV2 {
         game.play(3,3);
         String actual = game.play(3,2);
         assertEquals("The result is a draw", actual);
+    }
+
+
+    @Test
+    public void whenInstantiatedThenSetCollection(){
+        assertNotNull(game.getTicTacToeCollection());
+    }
+
+
+    @Test
+    public void whenPLayThenSaveMoveIsINvoked(){
+        TicTacToeBean move = new TicTacToeBean(1, 1, 3, 'x');
+        game.play(move.getX(), move.getY());
+        verify(collection, times(1)).saveMove(move);
     }
 
 
