@@ -35,9 +35,7 @@ public class TicTacToe {
         validateAxisPostion(xPosition);
         validateAxisPostion(yPosition);
         currentPlayer = nextPlayer();
-        placePiece(xPosition, yPosition, currentPlayer);
-        TicTacToeBean move = new TicTacToeBean();
-        collection.saveMove();
+        placePiece(new TicTacToeBean(1, xPosition, yPosition, currentPlayer));
         if (win(xPosition, yPosition)) {
             return currentPlayer + " is the winner";
         }
@@ -53,14 +51,17 @@ public class TicTacToe {
         }
     }
 
-    private void placePiece(final int xPosition, final int yPosition, char player) {
-        int realX = xPosition - 1;
-        int realY = yPosition - 1;
+    private void placePiece(final TicTacToeBean bean) {
+        int realX = bean.getX() - 1;
+        int realY = bean.getY() - 1;
 
         if (board[realX][realY] != EMPTY_SPOT) {
-            throw new RuntimeException("Position " + xPosition + " - " + yPosition + "is occupied");
+            throw new RuntimeException("Position " + bean.getX() + " - " + bean.getY() + "is occupied");
         }
-        board[realX][realY] = player;
+        board[realX][realY] = bean.getPlayer();
+        if (!getTicTacToeCollection().saveMove(bean)){
+            throw  new RuntimeException("Fail to save move");
+        }
     }
 
     public char nextPlayer() {

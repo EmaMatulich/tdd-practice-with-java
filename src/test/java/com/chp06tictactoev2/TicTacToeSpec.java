@@ -23,6 +23,7 @@ public class TicTacToeSpec {
     public final void setup() throws UnknownHostException {
         collection = mock(TicTacToeCollection.class);
         game = new TicTacToe(collection);
+        doReturn(true).when(collection).saveMove(any(TicTacToeBean.class));
     }
 
     /**
@@ -154,10 +155,19 @@ public class TicTacToeSpec {
 
 
     @Test
-    public void whenPLayThenSaveMoveIsINvoked(){
-        TicTacToeBean move = new TicTacToeBean(1, 1, 3, 'x');
+    public void whenPlayThenSaveMoveIsINvoked(){
+        TicTacToeBean move = new TicTacToeBean(1, 1, 3, 'X');
         game.play(move.getX(), move.getY());
         verify(collection, times(1)).saveMove(move);
+    }
+
+
+    @Test
+    public void whenPlayAndSaveMoveReturnsFalseThenThrowException(){
+        doReturn(false).when(collection).saveMove(any(TicTacToeBean.class));
+        TicTacToeBean bean = new TicTacToeBean(1,1,3,'X');
+        exception.expect(RuntimeException.class);
+        game.play(bean.getX(), bean.getY());
     }
 
 
