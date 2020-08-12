@@ -14,6 +14,7 @@ public class TicTacToe {
     private final int BOARD_SIZE = 3;
     private char[][] board;
     private char currentPlayer;
+    private int turnCounter = 0;
 
     private TicTacToeCollection collection;
 
@@ -29,13 +30,21 @@ public class TicTacToe {
         };
         currentPlayer = NO_CURRENT_PLAYER;
         this.collection = collection;
+        dropCollection();
+    }
+
+    private void dropCollection() {
+        if (!this.collection.drop()){
+            throw new RuntimeException("Fail to drop collection");
+        }
     }
 
     public String play(final int xPosition, final int yPosition) throws RuntimeException {
         validateAxisPostion(xPosition);
         validateAxisPostion(yPosition);
         currentPlayer = nextPlayer();
-        placePiece(new TicTacToeBean(1, xPosition, yPosition, currentPlayer));
+        incrementTurn();
+        placePiece(new TicTacToeBean(turnCounter, xPosition, yPosition, currentPlayer));
         if (win(xPosition, yPosition)) {
             return currentPlayer + " is the winner";
         }
@@ -43,6 +52,10 @@ public class TicTacToe {
             return DRAW_MESSAGE;
         }
         return NO_WINNER_MESSAGE;
+    }
+
+    private void incrementTurn() {
+        turnCounter++;
     }
 
     private void validateAxisPostion(final int axisPosition) throws RuntimeException {

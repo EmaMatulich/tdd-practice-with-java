@@ -22,8 +22,9 @@ public class TicTacToeSpec {
     @Before
     public final void setup() throws UnknownHostException {
         collection = mock(TicTacToeCollection.class);
-        game = new TicTacToe(collection);
         doReturn(true).when(collection).saveMove(any(TicTacToeBean.class));
+        doReturn(true).when(collection).drop();
+        game = new TicTacToe(collection);
     }
 
     /**
@@ -153,9 +154,24 @@ public class TicTacToeSpec {
         assertNotNull(game.getTicTacToeCollection());
     }
 
+    @Test
+    public void whenInstantiatedThenDropInvoked() throws UnknownHostException {
+        collection = mock(TicTacToeCollection.class);
+        doReturn(true).when(collection).drop();
+        new TicTacToe(collection);
+        verify(collection, times(1)).drop();
+    }
 
     @Test
-    public void whenPlayThenSaveMoveIsINvoked(){
+    public void whenInstantiatedAndDropReturnsFalseThenRuntimeException() throws UnknownHostException {
+        collection = mock(TicTacToeCollection.class);
+        doReturn(false).when(collection).drop();
+        exception.expect(RuntimeException.class);
+        new TicTacToe(collection);
+    }
+
+    @Test
+    public void whenPlayThenSaveMoveIsInvoked(){
         TicTacToeBean move = new TicTacToeBean(1, 1, 3, 'X');
         game.play(move.getX(), move.getY());
         verify(collection, times(1)).saveMove(move);
@@ -168,6 +184,17 @@ public class TicTacToeSpec {
         TicTacToeBean bean = new TicTacToeBean(1,1,3,'X');
         exception.expect(RuntimeException.class);
         game.play(bean.getX(), bean.getY());
+    }
+
+    @Test
+    public void whenPLayInvokedMultipleTimesThenTurnIncrease(){
+        TicTacToeBean firstMove = new TicTacToeBean(1,1,1,'X');
+        game.play(firstMove.getX(), firstMove.getY());
+        verify(collection, times(1)).saveMove(firstMove);
+
+        TicTacToeBean secondMove = new TicTacToeBean(2,1,2,'O');
+        game.play(secondMove.getX(), secondMove.getY());
+        verify(collection, times(1)).saveMove(secondMove);
     }
 
 
