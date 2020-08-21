@@ -1,5 +1,7 @@
-package com.chp07tddwithfunc;
+package com.chp07tddwithfunc.student;
 
+import com.chp07tddwithfunc.student.Student;
+import com.chp07tddwithfunc.student.StudentRepository;
 import org.junit.Test;
 
 import java.util.Arrays;

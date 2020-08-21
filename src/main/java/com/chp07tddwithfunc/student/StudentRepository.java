@@ -1,4 +1,4 @@
-package com.chp07tddwithfunc;
+package com.chp07tddwithfunc.student;
 
 import java.util.*;
 
